@@ -41,12 +41,13 @@ type Issue struct {
 }
 
 type ListIssueOption struct {
-	Page int
+	Page   int
+	IsPull bool
 }
 
 func (c *Client) ListRepoIssues(owner, repo string, opt ListIssueOption) ([]*Issue, error) {
 	issues := make([]*Issue, 0, 10)
-	return issues, c.getParsedResponse("GET", fmt.Sprintf("/repos/%s/%s/issues?page=%d", owner, repo, opt.Page), nil, nil, &issues)
+	return issues, c.getParsedResponse("GET", fmt.Sprintf("/repos/%s/%s/issues?page=%d&pull=%t", owner, repo, opt.Page, opt.IsPull), nil, nil, &issues)
 }
 
 func (c *Client) GetIssue(owner, repo string, index int64) (*Issue, error) {
